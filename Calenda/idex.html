@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ប្រព័ន្ធបំលែងថ្ងៃខែឆ្នាំសកលទៅខ្មែរ</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Khmer OS Battambang", "Khmer OS Siemreap", Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f9f3e9 0%, #e8dfca 100%);
+            color: #5d4037;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: linear-gradient(135deg, #ffffff 0%, #fffaf0 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(139, 69, 19, 0.15);
+            padding: 40px;
+            width: 100%;
+            max-width: 650px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #ff9933, #cc6600, #ff9933);
+            border-radius: 20px 20px 0 0;
+        }
+
+        h1 {
+            color: #8b4513;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            right: 25%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff9933, transparent);
+            border-radius: 3px;
+        }
+
+        .description {
+            color: #a0522d;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 1.1rem;
+            padding: 0 10px;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+            background: rgba(255, 248, 220, 0.5);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: space-between;
+        }
+
+        .input-field {
+            flex: 1;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #5d4037;
+            font-size: 1.1rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid rgba(139, 69, 19, 0.2);
+            border-radius: 10px;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        select:hover {
+            border-color: rgba(255, 153, 51, 0.5);
+            box-shadow: 0 5px 12px rgba(255, 153, 51, 0.1);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #ff9933;
+            box-shadow: 0 0 0 3px rgba(255, 153, 51, 0.3);
+        }
+
+        .btn-convert {
+            background: linear-gradient(135deg, #ff9933 0%, #cc6600 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 16px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 15px rgba(255, 153, 51, 0.4);
+            margin-top: 15px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-convert:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 153, 51, 0.5);
+        }
+
+        .btn-convert:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-convert::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-convert:hover::after {
+            left: 100%;
+        }
+
+        .result-section {
+            background: linear-gradient(135deg, rgba(255, 248, 220, 0.8) 0%, rgba(255, 240, 200, 0.8) 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px dashed #ff9933;
+            margin-top: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%23ff9933" opacity="0.05" d="M30,30 Q50,10 70,30 T90,50 T70,70 T50,90 T30,70 T10,50 T30,30 Z"></path></svg>');
+            background-size: 100px 100px;
+            z-index: 0;
+        }
+
+        .result-title {
+            font-size: 1.2rem;
+            color: #a0522d;
+            margin-bottom: 15px;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .khmer-date {
+            font-size: 1.6rem;
+            color: #5d4037;
+            font-weight: bold;
+            line-height: 1.5;
+            margin-bottom: 10px;
+            position: relative;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .temple-info {
+            font-size: 1.2rem;
+            color: #5d4037;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-top: 15px;
+            position: relative;
+        }
+
+        .footer {
+            text-align: center;
+            color: #a0522d;
+            font-size: 0.95rem;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(139, 69, 19, 0.2);
+        }
+
+        .footer p {
+            margin-bottom: 8px;
+        }
+
+        .decorative-border {
+            height: 10px;
+            background: linear-gradient(90deg, transparent, #ff9933, transparent);
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px 20px;
+            }
+            
+            .input-group {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 1.7rem;
+            }
+            
+            .khmer-date {
+                font-size: 1.4rem;
+            }
+            
+            .temple-info {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .khmer-date {
+                font-size: 1.2rem;
+            }
+            
+            .temple-info {
+                font-size: 1rem;
+            }
+            
+            .description {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ប្រព័ន្ធបំលែងថ្ងៃខែឆ្នាំសកលទៅខ្មែរ</h1>
+
+        <div class="description">
+            <p>បំលែងថ្ងៃខែឆ្នាំសកល (Gregorian) ទៅជាថ្ងៃខែឆ្នាំខ្មែរ (Buddhist) បានយ៉ាងងាយស្រួល</p>
+        </div>
+
+        <div class="decorative-border"></div>
+
+        <div class="input-section">
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="daySelect">ថ្ងៃ</label>
+                    <select id="daySelect">
+                        <option value="">-- ជ្រើសរើសថ្ងៃ --</option>
+                        <!-- Days will be populated by JavaScript -->
+                    </select>
+                </div>
+
+                <div class="input-field">
+                    <label for="monthSelect">ខែ</label>
+                    <select id="monthSelect">
+                        <option value="">-- ជ្រើសរើសខែ --</option>
+                        <!-- Months will be populated by JavaScript -->
+                    </select>
+                </div>
+
+                <div class="input-field">
+                    <label for="yearSelect">ឆ្នាំ</label>
+                    <select id="yearSelect">
+                        <option value="">-- ជ្រើសរើសឆ្នាំ --</option>
+                        <!-- Years will be populated by JavaScript -->
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-convert" onclick="convertDate()">
+                <span>បម្លែង</span>
+            </button>
+        </div>
+
+        <div class="result-section">
+            <div class="result-title">លទ្ធផលបំលែងថ្ងៃខែឆ្នាំ:</div>
+            <div class="khmer-date" id="khmer-result">
+                ថ្ងៃអាទិត្យ ១២ កើត ខែកត្តិក ឆ្នាំម្សាញ់ សប្តស័ក ពុទ្ធសករាជ ២៥៦៩
+            </div>
+            <div class="temple-info" id="temple-info">
+                វត្តថ្មគោល​, ត្រូវនឹងថ្ងៃទី២ ខែវិច្ឆិកា ឆ្នាំ២០២៥
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>ប្រព័ន្ធបំលែងថ្ងៃខែឆ្នាំសកលទៅខ្មែរ &copy; ២៥៦៩ ពុទ្ធសករាជ</p>
+            <p>@អេង ចាន់ធឿន@</p>
+        </div>
+    </div>
+
+    <script>
+        // Function to convert numbers to Khmer numerals
+        function toKhmerNumber(num) {
+            const khmerDigits = ["០", "១", "២", "៣", "៤", "៥", "៦", "៧", "៨", "៩"];
+            return num
+                .toString()
+                .split("")
+                .map((digit) => khmerDigits[parseInt(digit)])
+                .join("");
+        }
+
+        // Function to populate dropdowns
+        function populateDropdowns() {
+            const daySelect = document.getElementById("daySelect");
+            const monthSelect = document.getElementById("monthSelect");
+            const yearSelect = document.getElementById("yearSelect");
+
+            // Clear existing options
+            daySelect.innerHTML = '<option value="">-- ជ្រើសរើសថ្ងៃ --</option>';
+            monthSelect.innerHTML = '<option value="">-- ជ្រើសរើសខែ --</option>';
+            yearSelect.innerHTML = '<option value="">-- ជ្រើសរើសឆ្នាំ --</option>';
+
+            // Populate days (1-31)
+            for (let i = 1; i <= 31; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.textContent = toKhmerNumber(i);
+                if (i === 2) option.selected = true;
+                daySelect.appendChild(option);
+            }
+
+            // Populate months (1-12)
+            for (let i = 1; i <= 12; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.textContent = toKhmerNumber(i);
+                if (i === 11) option.selected = true;
+                monthSelect.appendChild(option);
+            }
+
+            // Populate years (1900-2100)
+            const currentYear = new Date().getFullYear();
+            for (let i = 1900; i <= 2100; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.textContent = toKhmerNumber(i);
+                if (i === 2025) option.selected = true;
+                yearSelect.appendChild(option);
+            }
+        }
+
+        // Initialize with today's date
+        document.addEventListener("DOMContentLoaded", function () {
+            populateDropdowns();
+            convertDate();
+        });
+
+        // Convert date function
+        function convertDate() {
+            const day = document.getElementById("daySelect").value;
+            const month = document.getElementById("monthSelect").value;
+            const year = document.getElementById("yearSelect").value;
+
+            // Check if all fields are selected
+            if (!day || !month || !year) {
+                alert("សូមជ្រើសរើសអោយបានគ្រប់គ្រាន់តាមទម្រង់");
+                return;
+            }
+
+            try {
+                // Format Gregorian date in Khmer with Khmer numerals
+                const khmerMonths = [
+                    "មករា",
+                    "កុម្ភៈ",
+                    "មីនា",
+                    "មេសា",
+                    "ឧសភា",
+                    "មិថុនា",
+                    "កក្កដា",
+                    "សីហា",
+                    "កញ្ញា",
+                    "តុលា",
+                    "វិច្ឆិកា",
+                    "ធ្នូ",
+                ];
+                const gregorianMonthName = khmerMonths[month - 1];
+
+                // Update temple info with Khmer numerals
+                document.getElementById(
+                    "temple-info"
+                ).textContent = `វត្តថ្មគោល​, ត្រូវនឹងថ្ងៃទី${toKhmerNumber(
+                    day
+                )} ខែ${gregorianMonthName} ឆ្នាំ${toKhmerNumber(year)}`;
+            } catch (error) {
+                console.error("Conversion error:", error);
+                alert("មានបញ្ហាក្នុងការបំលែងថ្ងៃខែឆ្នាំ។ សូមពិនិត្យម្តងទៀត!");
+            }
+        }
+    </script>
+</body>
+</html>
